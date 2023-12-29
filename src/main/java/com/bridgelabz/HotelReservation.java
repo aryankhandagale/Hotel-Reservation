@@ -25,8 +25,8 @@ class HotelDetails {
 
 public class HotelReservation {
     HotelDetails lakewood = new HotelDetails("Lakewood", 110);
-    HotelDetails bridgewood = new HotelDetails("Bridgewood", 150, 50);
-    HotelDetails ridgewood = new HotelDetails("Ridgewood", 220, 150);
+    HotelDetails bridgewood = new HotelDetails("Bridgewood", 150);
+    HotelDetails ridgewood = new HotelDetails("Ridgewood", 220);
 
     public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
         try {
