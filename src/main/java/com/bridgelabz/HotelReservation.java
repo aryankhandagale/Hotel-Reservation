@@ -25,6 +25,8 @@ class HotelDetails {
 
 public class HotelReservation {
     HotelDetails lakewood = new HotelDetails("Lakewood", 110);
+    HotelDetails bridgewood = new HotelDetails("Bridgewood", 150, 50);
+    HotelDetails ridgewood = new HotelDetails("Ridgewood", 220, 150);
 
     public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
         try {
@@ -55,7 +57,15 @@ public class HotelReservation {
 
     public HotelDetails findCheapest(String startDate, String endDate) {
         int lakewoodCost = calculateTotalCost(startDate, endDate, lakewood);
-        return lakewood;
+        int bridgewoodCost = calculateTotalCost(startDate, endDate, bridgewood);
+        int ridgewoodCost = calculateTotalCost(startDate, endDate, ridgewood);
+
+        if (lakewoodCost <= bridgewoodCost && lakewoodCost <= ridgewoodCost)
+            return lakewood;
+        else if (bridgewoodCost <= lakewoodCost && bridgewoodCost <= ridgewoodCost)
+            return bridgewood;
+        else
+            return ridgewood;
     }
 }
 
