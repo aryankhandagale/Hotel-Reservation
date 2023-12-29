@@ -6,16 +6,20 @@ import java.util.*;
 
 class HotelDetails {
     private String hotelName;
-    private int weekDayRate, weekEndRate;
+    private int weekDayRate, weekEndRate, rating;
 
-    public HotelDetails (String hotelName, int weekDayRate, int weekEndRate) {
+    public HotelDetails (String hotelName, int rating, int weekDayRate, int weekEndRate) {
         this.hotelName = hotelName;
+        this.rating = rating;
         this.weekDayRate = weekDayRate;
         this.weekEndRate = weekEndRate;
     }
 
     public String getHotelName() {
         return hotelName;
+    }
+    public int getRating() {
+        return rating;
     }
     public int getWeekDayRate() {
         return weekDayRate;
@@ -26,9 +30,9 @@ class HotelDetails {
 }
 
 public class HotelReservation {
-    HotelDetails lakewood = new HotelDetails("Lakewood", 110, 90);
-    HotelDetails bridgewood = new HotelDetails("Bridgewood", 150, 50);
-    HotelDetails ridgewood = new HotelDetails("Ridgewood", 220, 150);
+    HotelDetails lakewood = new HotelDetails("Lakewood", 3, 110, 90);
+    HotelDetails bridgewood = new HotelDetails("Bridgewood", 4, 150, 50);
+    HotelDetails ridgewood = new HotelDetails("Ridgewood", 5, 220, 150);
 
     public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
         try {
