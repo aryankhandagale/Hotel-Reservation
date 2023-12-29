@@ -8,11 +8,12 @@ import java.util.Scanner;
 
 class HotelDetails {
     private String hotelName;
-    private int weekDayRate;
+    private int weekDayRate, weekEndRate;
 
-    public HotelDetails (String hotelName, int weekDayRate) {
+    public HotelDetails (String hotelName, int weekDayRate, int weekEndRate) {
         this.hotelName = hotelName;
         this.weekDayRate = weekDayRate;
+        this.weekEndRate = weekEndRate;
     }
 
     public String getHotelName() {
@@ -21,10 +22,15 @@ class HotelDetails {
     public int getWeekDayRate() {
         return weekDayRate;
     }
+    public int getWeekEndRate() {
+        return weekEndRate;
+    }
 }
 
 public class HotelReservation {
-    HotelDetails lakewood = new HotelDetails("Lakewood", 110);
+    HotelDetails lakewood = new HotelDetails("Lakewood", 110, 90);
+    HotelDetails bridgewood = new HotelDetails("Bridgewood", 160, 60);
+    HotelDetails ridgewood = new HotelDetails("Ridgewood", 220, 150);
 
     public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
         try {
@@ -41,7 +47,9 @@ public class HotelReservation {
             int totalCost = 0;
 
             while (startCalendar.before(endCalendar) || startCalendar.equals(endCalendar)) {
-                int rate = hotel.getWeekDayRate();
+                int dayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
+                int rate = (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY)
+                        ? hotel.getWeekEndRate() : hotel.getWeekDayRate();
                 totalCost += rate;
 
                 startCalendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -55,7 +63,15 @@ public class HotelReservation {
 
     public HotelDetails findCheapest(String startDate, String endDate) {
         int lakewoodCost = calculateTotalCost(startDate, endDate, lakewood);
-        return lakewood;
+        int bridgewoodCost = calculateTotalCost(startDate, endDate, bridgewood);
+        int ridgewoodCost = calculateTotalCost(startDate, endDate, ridgewood);
+
+        if (lakewoodCost <= bridgewoodCost && lakewoodCost <= ridgewoodCost)
+            return lakewood;
+        else if (bridgewoodCost <= lakewoodCost && bridgewoodCost <= ridgewoodCost)
+            return bridgewood;
+        else
+            return ridgewood;
     }
 }
 
