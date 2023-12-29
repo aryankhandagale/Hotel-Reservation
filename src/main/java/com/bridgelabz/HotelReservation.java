@@ -2,9 +2,7 @@ package com.bridgelabz;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 class HotelDetails {
     private String hotelName;
@@ -29,7 +27,7 @@ class HotelDetails {
 
 public class HotelReservation {
     HotelDetails lakewood = new HotelDetails("Lakewood", 110, 90);
-    HotelDetails bridgewood = new HotelDetails("Bridgewood", 160, 60);
+    HotelDetails bridgewood = new HotelDetails("Bridgewood", 150, 50);
     HotelDetails ridgewood = new HotelDetails("Ridgewood", 220, 150);
 
     public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
@@ -61,17 +59,23 @@ public class HotelReservation {
         }
     }
 
-    public HotelDetails findCheapest(String startDate, String endDate) {
-        int lakewoodCost = calculateTotalCost(startDate, endDate, lakewood);
-        int bridgewoodCost = calculateTotalCost(startDate, endDate, bridgewood);
-        int ridgewoodCost = calculateTotalCost(startDate, endDate, ridgewood);
+    public List<HotelDetails> findCheapest(String startDate, String endDate) {
+        Map<HotelDetails, Integer> hotelCostMap = new HashMap<>();
+        hotelCostMap.put(lakewood, calculateTotalCost(startDate, endDate, lakewood));
+        hotelCostMap.put(bridgewood, calculateTotalCost(startDate, endDate, bridgewood));
+        hotelCostMap.put(ridgewood, calculateTotalCost(startDate, endDate, ridgewood));
 
-        if (lakewoodCost <= bridgewoodCost && lakewoodCost <= ridgewoodCost)
-            return lakewood;
-        else if (bridgewoodCost <= lakewoodCost && bridgewoodCost <= ridgewoodCost)
-            return bridgewood;
-        else
-            return ridgewood;
+        int minCost = hotelCostMap.values().stream().min(Integer::compare).orElse(0);
+
+        List<HotelDetails> cheapestHotels = new ArrayList<>();
+
+        hotelCostMap.forEach((hotel, cost) -> {
+            if (cost == minCost) {
+                cheapestHotels.add(hotel);
+            }
+        });
+
+        return cheapestHotels;
     }
 }
 
@@ -86,13 +90,16 @@ class Booking {
         String endDateString = scanner.nextLine();
 
         HotelReservation hotelReservation = new HotelReservation();
-        HotelDetails cheapestHotel = hotelReservation.findCheapest(startDateString, endDateString);
+        List<HotelDetails> cheapestHotels = hotelReservation.findCheapest(startDateString, endDateString);
 
-        if (cheapestHotel != null) {
-            System.out.println("Cheapest Hotel: " + cheapestHotel.getHotelName());
-            System.out.println("Total Cost: " + hotelReservation.calculateTotalCost
-                    (startDateString, endDateString, cheapestHotel));
+        if (!cheapestHotels.isEmpty()) {
+            System.out.println("Cheapest Hotels:");
+            for (HotelDetails cheapestHotel : cheapestHotels) {
+                System.out.println("Hotel: " + cheapestHotel.getHotelName());
+                System.out.println("Total Cost: " + hotelReservation.calculateTotalCost(startDateString, endDateString, cheapestHotel));
+            }
         }
+
         scanner.close();
     }
 }
