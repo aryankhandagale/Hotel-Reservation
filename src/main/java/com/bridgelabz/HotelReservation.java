@@ -63,7 +63,7 @@ public class HotelReservation {
         }
     }
 
-    public List<HotelDetails> findCheapest(String startDate, String endDate) {
+    public HotelDetails findCheapest(String startDate, String endDate) {
         Map<HotelDetails, Integer> hotelCostMap = new HashMap<>();
         hotelCostMap.put(lakewood, calculateTotalCost(startDate, endDate, lakewood));
         hotelCostMap.put(bridgewood, calculateTotalCost(startDate, endDate, bridgewood));
@@ -79,7 +79,13 @@ public class HotelReservation {
             }
         });
 
-        return cheapestHotels;
+        return getBestRating(cheapestHotels);
+    }
+
+    private HotelDetails getBestRating(List<HotelDetails> hotels) {
+        return hotels.stream()
+                .max(Comparator.comparingInt(HotelDetails::getRating))
+                .orElse(null);
     }
 }
 
@@ -94,14 +100,12 @@ class Booking {
         String endDateString = scanner.nextLine();
 
         HotelReservation hotelReservation = new HotelReservation();
-        List<HotelDetails> cheapestHotels = hotelReservation.findCheapest(startDateString, endDateString);
+        HotelDetails bestRatedHotels = hotelReservation.findCheapest(startDateString, endDateString);
 
-        if (!cheapestHotels.isEmpty()) {
-            System.out.println("Cheapest Hotels:");
-            for (HotelDetails cheapestHotel : cheapestHotels) {
-                System.out.println("Hotel: " + cheapestHotel.getHotelName());
-                System.out.println("Total Cost: " + hotelReservation.calculateTotalCost(startDateString, endDateString, cheapestHotel));
-            }
+        if (bestRatedHotels != null) {
+            System.out.println("Best Rated Hotel:");
+            System.out.println("Hotel: " + bestRatedHotels.getHotelName());
+            System.out.println("Total Cost: " + hotelReservation.calculateTotalCost(startDateString, endDateString, bestRatedHotels));
         }
 
         scanner.close();
