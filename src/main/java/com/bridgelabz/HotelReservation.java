@@ -4,30 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-class HotelDetails {
-    private String hotelName;
-    private int weekDayRate, weekEndRate, rating;
-
-    public HotelDetails (String hotelName, int rating, int weekDayRate, int weekEndRate) {
-        this.hotelName = hotelName;
-        this.rating = rating;
-        this.weekDayRate = weekDayRate;
-        this.weekEndRate = weekEndRate;
-    }
-
-    public String getHotelName() {
-        return hotelName;
-    }
-    public int getRating() {
-        return rating;
-    }
-    public int getWeekDayRate() {
-        return weekDayRate;
-    }
-    public int getWeekEndRate() {
-        return weekEndRate;
-    }
-}
 
 public class HotelReservation {
     HotelDetails lakewood = new HotelDetails("Lakewood", 3, 110, 90);
@@ -87,27 +63,22 @@ public class HotelReservation {
                 .max(Comparator.comparingInt(HotelDetails::getRating))
                 .orElse(null);
     }
-}
 
-class Booking {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public HotelDetails findBestRated(String startDate, String endDate) {
+        Map<HotelDetails, Integer> hotelRatingMap = new HashMap<>();
+        hotelRatingMap.put(lakewood, calculateTotalCost(startDate, endDate, lakewood));
+        hotelRatingMap.put(bridgewood, calculateTotalCost(startDate, endDate, bridgewood));
+        hotelRatingMap.put(ridgewood, calculateTotalCost(startDate, endDate, ridgewood));
 
-        System.out.print("Enter the check-in date (DD/MM/YYYY): ");
-        String startDateString = scanner.nextLine();
+        int maxRating = hotelRatingMap.values().stream().max(Integer::compare).orElse(3);
 
-        System.out.print("Enter the check-out date (DD/MM/YYYY): ");
-        String endDateString = scanner.nextLine();
+        List<HotelDetails> bestRatedHotel = new ArrayList<>();
 
-        HotelReservation hotelReservation = new HotelReservation();
-        HotelDetails bestRatedHotels = hotelReservation.findCheapest(startDateString, endDateString);
-
-        if (bestRatedHotels != null) {
-            System.out.println("Best Rated Hotel:");
-            System.out.println("Hotel: " + bestRatedHotels.getHotelName());
-            System.out.println("Total Cost: " + hotelReservation.calculateTotalCost(startDateString, endDateString, bestRatedHotels));
-        }
-
-        scanner.close();
+        hotelRatingMap.forEach((hotel, rating) -> {
+            if (rating == maxRating) {
+                bestRatedHotel.add(hotel);
+            }
+        });
+        return getBestRating(bestRatedHotel);
     }
 }

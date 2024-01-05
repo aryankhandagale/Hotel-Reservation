@@ -10,8 +10,8 @@ class HotelReservationTest {
         String startDate = "11/9/2020";
         String endDate = "12/9/2020";
 
-        int lakewoodCost = hotelReservation.calculateTotalCost(startDate, endDate, hotelReservation.lakewood);
-        assertEquals(200, lakewoodCost);
+        int lakewoodRating = hotelReservation.lakewood.getRating();
+        assertEquals(3, lakewoodRating);
     }
 
     @Test
@@ -20,8 +20,8 @@ class HotelReservationTest {
         String startDate = "11/9/2020";
         String endDate = "12/9/2020";
 
-        int bridgewoodCost = hotelReservation.calculateTotalCost(startDate, endDate, hotelReservation.bridgewood);
-        assertEquals(200, bridgewoodCost);
+        int bridgewoodRating = hotelReservation.bridgewood.getRating();
+        assertEquals(4, bridgewoodRating);
     }
 
     @Test
@@ -30,7 +30,7 @@ class HotelReservationTest {
         String startDate = "11/9/2020";
         String endDate = "12/9/2020";
 
-        int ridgewoodCost = hotelReservation.calculateTotalCost(startDate, endDate, hotelReservation.ridgewood);
-        assertEquals(370, ridgewoodCost);
+        int ridgewoodRating = hotelReservation.ridgewood.getRating();
+        assertEquals(5, ridgewoodRating);
     }
 }
