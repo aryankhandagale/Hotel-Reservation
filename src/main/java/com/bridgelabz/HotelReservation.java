@@ -6,9 +6,12 @@ import java.util.*;
 
 
 public class HotelReservation {
-    HotelDetails lakewood = new HotelDetails("Lakewood", 3, 110, 90);
-    HotelDetails bridgewood = new HotelDetails("Bridgewood", 4, 150, 50);
-    HotelDetails ridgewood = new HotelDetails("Ridgewood", 5, 220, 150);
+    HotelDetails lakewood = new HotelDetails("Lakewood", 3, 110, 90,
+            80, 80);
+    HotelDetails bridgewood = new HotelDetails("Bridgewood", 4, 150, 50,
+            110, 50);
+    HotelDetails ridgewood = new HotelDetails("Ridgewood", 5, 220, 150,
+            100, 40);
 
     public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
         try {
@@ -27,7 +30,7 @@ public class HotelReservation {
             while (startCalendar.before(endCalendar) || startCalendar.equals(endCalendar)) {
                 int dayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
                 int rate = (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY)
-                        ? hotel.getWeekEndRate() : hotel.getWeekDayRate();
+                        ? hotel.getRewardWeekEndRate() : hotel.getRewardWeekDayRate();
                 totalCost += rate;
 
                 startCalendar.add(Calendar.DAY_OF_MONTH, 1);

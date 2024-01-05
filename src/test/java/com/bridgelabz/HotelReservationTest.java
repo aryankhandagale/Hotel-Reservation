@@ -5,32 +5,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HotelReservationTest {
     @Test
-    void testCalculateLakewoodCost() {
+    void testCalculateLakewoodRewardCost() {
         HotelReservation hotelReservation = new HotelReservation();
         String startDate = "11/9/2020";
         String endDate = "12/9/2020";
 
-        int lakewoodRating = hotelReservation.lakewood.getRating();
-        assertEquals(3, lakewoodRating);
+        int lakewoodRewardCost = hotelReservation.calculateTotalCost(startDate, endDate, hotelReservation.lakewood);
+        assertEquals(160, lakewoodRewardCost);
     }
 
     @Test
-    void testCalculateBridgewoodCost() {
+    void testCalculateBridgewoodRewardCost() {
         HotelReservation hotelReservation = new HotelReservation();
         String startDate = "11/9/2020";
         String endDate = "12/9/2020";
 
-        int bridgewoodRating = hotelReservation.bridgewood.getRating();
-        assertEquals(4, bridgewoodRating);
+        int bridgewoodRewardCost = hotelReservation.calculateTotalCost(startDate, endDate, hotelReservation.bridgewood);
+        assertEquals(160, bridgewoodRewardCost);
     }
 
     @Test
-    void testCalculateRidgewoodCost() {
+    void testCalculateRidgewoodRewardCost() {
         HotelReservation hotelReservation = new HotelReservation();
         String startDate = "11/9/2020";
         String endDate = "12/9/2020";
 
-        int ridgewoodRating = hotelReservation.ridgewood.getRating();
-        assertEquals(5, ridgewoodRating);
+        int ridgewoodRewardCost = hotelReservation.calculateTotalCost(startDate, endDate, hotelReservation.ridgewood);
+        assertEquals(140, ridgewoodRewardCost);
     }
 }
