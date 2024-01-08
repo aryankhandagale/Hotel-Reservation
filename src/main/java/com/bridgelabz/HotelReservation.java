@@ -9,20 +9,15 @@ import java.util.*;
 public class HotelReservation {
     private List<HotelDetails> hotels;
 
-    /*  @Description: This class has the implementation of Hotel Reservation program which provides the
-            best hotel based on price and rating between given dates.
-        @Parameters: start date and end date.
-        @Return: totalCost, availableHotels.stream(), hotels and availableHotels.stream().
-    */
-
     public HotelReservation() {
-        hotels = new ArrayList<>();
-        hotels.add(new HotelDetails("Lakewood", 3, 110, 90, 80, 80));
-        hotels.add(new HotelDetails("Bridgewood", 4, 150, 50, 110, 50));
-        hotels.add(new HotelDetails("Ridgewood", 5, 220, 150, 100, 40));
+        hotels = Arrays.asList(
+                new HotelDetails("Lakewood", 3, 110, 90, 80, 80),
+                new HotelDetails("Bridgewood", 4, 150, 50, 110, 50),
+                new HotelDetails("Ridgewood", 5, 220, 150, 100, 40)
+        );
     }
 
-    public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel) {
+    public int calculateTotalCost(String startDateString, String endDateString, HotelDetails hotel, int customerType) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date startDate = dateFormat.parse(startDateString);
@@ -38,12 +33,26 @@ public class HotelReservation {
 
             while (startCalendar.before(endCalendar) || startCalendar.equals(endCalendar)) {
                 int dayOfWeek = startCalendar.get(Calendar.DAY_OF_WEEK);
-                int rate = (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY)
-                        ? hotel.getRewardWeekEndRate() : hotel.getRewardWeekDayRate();
-                totalCost += rate;
+                int rate = 0;
 
+                switch (customerType) {
+                    case 1: // Regular
+                        rate = (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY)
+                                ? hotel.getRegularWeekEndRate() : hotel.getRegularWeekDayRate();
+                        break;
+                    case 2: // Reward
+                        rate = (dayOfWeek == Calendar.SUNDAY || dayOfWeek == Calendar.SATURDAY)
+                                ? hotel.getRewardWeekEndRate() : hotel.getRewardWeekDayRate();
+                        break;
+                    default:
+                        System.out.println("Invalid customer type. Please choose 1 for Regular or 2 for Reward.");
+                        return -1;
+                }
+
+                totalCost += rate;
                 startCalendar.add(Calendar.DAY_OF_MONTH, 1);
             }
+
             return totalCost;
         } catch (ParseException e) {
             System.out.println("Invalid date format. Please enter dates in DD/MM/YYYY format");
@@ -51,10 +60,10 @@ public class HotelReservation {
         }
     }
 
-    public HotelDetails findCheapestBestRated(String startDate, String endDate) {
+    public HotelDetails findCheapestBestRated(String startDate, String endDate, int customerType) {
         List<HotelDetails> availableHotels = getAvailableHotels(startDate, endDate);
         return availableHotels.stream()
-                .min(Comparator.comparingInt(hotel -> calculateTotalCost(startDate, endDate, hotel)))
+                .min(Comparator.comparingInt(hotel -> calculateTotalCost(startDate, endDate, hotel, customerType)))
                 .orElse(null);
     }
 
