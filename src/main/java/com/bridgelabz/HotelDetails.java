@@ -1,6 +1,12 @@
 package com.bridgelabz;
 
+// This class contains constructor and getters.
+
 public class HotelDetails {
+    /*  @Description: This class contains constructor and getters of instance variables for HotelReservation class.
+        @Paramters: hotelName, regularWeekDayRate, regularWeekEndRate, rewardWeekDayRate, rewardWeekEndRate and rating
+        @Return: hotelName, regularWeekDayRate, regularWeekEndRate, rewardWeekDayRate, rewardWeekEndRate and rating
+    */
     private String hotelName;
     private int regularWeekDayRate, regularWeekEndRate, rewardWeekDayRate, rewardWeekEndRate, rating;
 

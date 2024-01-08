@@ -2,7 +2,15 @@ package com.bridgelabz;
 
 import java.util.Scanner;
 
+// This class contains main().
+
 public class Main {
+
+    /*  @Description: This class has the main method of HotelReservation .
+        @Parameters: String[] args.
+        @Return: -
+    */
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 

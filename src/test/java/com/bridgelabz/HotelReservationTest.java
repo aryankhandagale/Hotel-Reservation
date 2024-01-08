@@ -4,7 +4,15 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// This class contains @Test testFindCheapestBestRated().
+
 class HotelReservationTest {
+
+    /*  @Description: This class has the test cases for HotelReservation .
+        @Parameters: -
+        @Return: -
+    */
+
     @Test
     void testFindCheapestBestRated() {
         HotelReservation hotelReservation = new HotelReservation();

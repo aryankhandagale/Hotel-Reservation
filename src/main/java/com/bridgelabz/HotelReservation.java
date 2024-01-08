@@ -4,9 +4,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// This class contains HotelReservation(), calculateTotalCost(), findCheapestBestRated(), getAvailableHotels() and findBestRated().
 
 public class HotelReservation {
     private List<HotelDetails> hotels;
+
+    /*  @Description: This class has the implementation of Hotel Reservation program which provides the
+            best hotel based on price and rating between given dates.
+        @Parameters: start date and end date.
+        @Return: totalCost, availableHotels.stream(), hotels and availableHotels.stream().
+    */
 
     public HotelReservation() {
         hotels = new ArrayList<>();
