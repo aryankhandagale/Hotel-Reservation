@@ -13,12 +13,15 @@ public class Main {
         String endDateString = scanner.nextLine();
 
         HotelReservation hotelReservation = new HotelReservation();
-        HotelDetails bestRatedHotels = hotelReservation.findCheapest(startDateString, endDateString);
-        HotelDetails bestRating = hotelReservation.findBestRated(startDateString, endDateString);
+        HotelDetails cheapestBestRatedHotel = hotelReservation.findCheapestBestRated(startDateString, endDateString);
 
-        if (bestRating != null) {
-            System.out.println("Hotel : " + bestRating.getHotelName());
-            System.out.println("Total Reward Cost: " + hotelReservation.calculateTotalCost(startDateString, endDateString, bestRating));
+        if (cheapestBestRatedHotel != null) {
+            System.out.println("Cheapest Best Rated Hotel: " + cheapestBestRatedHotel.getHotelName());
+            System.out.println("Rating: " + cheapestBestRatedHotel.getRating());
+            System.out.println("Total Reward Cost: " +
+                    hotelReservation.calculateTotalCost(startDateString, endDateString, cheapestBestRatedHotel));
+        } else {
+            System.out.println("No hotels available for the specified date range.");
         }
 
         scanner.close();
